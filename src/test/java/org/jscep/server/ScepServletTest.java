@@ -10,10 +10,12 @@ import java.io.IOException;
 import java.math.BigInteger;
 import java.net.MalformedURLException;
 import java.net.URL;
+import java.nio.charset.Charset;
 import java.security.KeyPair;
 import java.security.KeyPairGenerator;
 import java.security.PrivateKey;
 import java.security.PublicKey;
+import java.security.SecureRandom;
 import java.security.cert.CertStore;
 import java.security.cert.Certificate;
 import java.security.cert.X509Certificate;
@@ -25,6 +27,7 @@ import java.util.HashMap;
 import java.util.Map;
 import static java.nio.charset.StandardCharsets.UTF_8;
 
+import org.apache.commons.lang3.StringUtils;
 import org.apache.http.Header;
 import org.apache.http.HttpEntity;
 import org.apache.http.client.methods.CloseableHttpResponse;
@@ -40,6 +43,10 @@ import org.bouncycastle.asn1.x509.SubjectPublicKeyInfo;
 import org.bouncycastle.cert.X509CertificateHolder;
 import org.bouncycastle.cert.jcajce.JcaX509CertificateConverter;
 import org.bouncycastle.cert.jcajce.JcaX509v1CertificateBuilder;
+import org.bouncycastle.crypto.CryptoServicesRegistrar;
+import org.bouncycastle.crypto.EntropySourceProvider;
+import org.bouncycastle.crypto.fips.FipsDRBG;
+import org.bouncycastle.crypto.util.BasicEntropySourceProvider;
 import org.bouncycastle.operator.ContentSigner;
 import org.bouncycastle.operator.OperatorCreationException;
 import org.bouncycastle.operator.jcajce.JcaContentSignerBuilder;
@@ -70,6 +77,7 @@ import org.jscep.transport.response.Capabilities;
 import org.jscep.transport.response.GetCaCapsResponseHandler;
 import org.jscep.transport.response.GetCaCertResponseHandler;
 import org.jscep.transport.response.GetNextCaCertResponseHandler;
+import org.jscep.util.SecureRandomUtils;
 import org.jscep.util.X500Utils;
 import org.junit.After;
 import org.junit.Before;
@@ -92,6 +100,7 @@ public class ScepServletTest {
 
     @Before
     public void configureFixtures() throws Exception {
+        SecureRandomUtils.setDefaultSecureRandom();
         name = new X500Name("CN=Example");
         pollName = new X500Name("CN=Poll");
         goodSerial = BigInteger.ONE;

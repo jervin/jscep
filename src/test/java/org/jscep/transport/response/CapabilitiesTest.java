@@ -11,7 +11,7 @@ import java.security.Provider;
 import java.security.Security;
 import java.util.EnumSet;
 
-import org.bouncycastle.jce.provider.BouncyCastleProvider;
+import org.bouncycastle.jcajce.provider.BouncyCastleFipsProvider;
 import org.junit.Assert;
 import org.junit.Test;
 
@@ -100,7 +100,7 @@ public class CapabilitiesTest {
     @Test
     public void testStrongestSignature() throws NoSuchAlgorithmException {
     	Provider[] providers =removeProviders();
-        BouncyCastleProvider bouncyCastle = new BouncyCastleProvider();
+        BouncyCastleFipsProvider bouncyCastle = new BouncyCastleFipsProvider();
         Security.addProvider(bouncyCastle);
         assertThat(Security.getProviders().length, is(1));
         final EnumSet<Capability> capsConstructorArg = EnumSet.noneOf(Capability.class);

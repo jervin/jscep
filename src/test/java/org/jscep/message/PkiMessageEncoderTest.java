@@ -46,7 +46,9 @@ import org.jscep.asn1.IssuerAndSubject;
 import org.jscep.transaction.FailInfo;
 import org.jscep.transaction.Nonce;
 import org.jscep.transaction.TransactionId;
+import org.jscep.util.SecureRandomUtils;
 import org.jscep.util.X509Certificates;
+import org.junit.BeforeClass;
 import org.junit.Test;
 import org.junit.runner.RunWith;
 import org.junit.runners.Parameterized;
@@ -102,6 +104,11 @@ public class PkiMessageEncoderTest {
 
     public PkiMessageEncoderTest(PkiMessage<?> message) {
         this.message = message;
+    }
+
+    @BeforeClass
+    public static void setUpClass() {
+        SecureRandomUtils.setDefaultSecureRandom();
     }
 
     @Test

@@ -22,6 +22,7 @@ import org.jscep.transaction.Nonce;
 import org.jscep.transaction.TransactionId;
 import org.jscep.transport.request.PkiOperationRequest;
 import org.jscep.transport.response.PkiOperationResponseHandler;
+import org.jscep.util.SecureRandomUtils;
 import org.jscep.util.X509Certificates;
 import org.junit.After;
 import org.junit.Before;
@@ -35,6 +36,7 @@ abstract public class AbstractTransportTest {
 
     @Before
     public void setUp() throws Exception {
+        SecureRandomUtils.setDefaultSecureRandom();
         server = new Server(0);
         server.start();
         url = new URL("http://localhost:"

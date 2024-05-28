@@ -15,7 +15,9 @@ import javax.net.ssl.X509TrustManager;
 import javax.security.auth.callback.CallbackHandler;
 import javax.security.auth.x500.X500Principal;
 
+import org.bouncycastle.crypto.CryptoServicesRegistrar;
 import org.jscep.client.verification.OptimisticCertificateVerifier;
+import org.jscep.util.SecureRandomUtils;
 import org.jscep.util.X509Certificates;
 import org.junit.Before;
 import org.junit.BeforeClass;
@@ -31,6 +33,7 @@ public abstract class AbstractClientTest extends ScepServerSupport {
     @BeforeClass
     public static void disableBC() {
         Security.removeProvider("BC");
+        SecureRandomUtils.setDefaultSecureRandom();
     }
 
     @Before
